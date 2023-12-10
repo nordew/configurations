@@ -1,85 +1,88 @@
-syntax on
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set ai
-set number
-set hlsearch
-set ruler
-highlight Comment ctermfg=green
-
 " ~/.config/nvim/init.vim
 
-" Set the runtime path to include Vim-Plug
-set rtp+=~/.vim/plugged/vim-plug
+call plug#begin('~/.config/nvim/plugged')
 
-" Initialize Vim-Plug
-call plug#begin('~/.vim/plugged')
+" General plugins
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
 
-" vim-polyglot
-let g:polyglot_disabled = ['autoindent']
+" C development
+Plug 'vim-airline/vim-airline'
+Plug 'preservim/nerdtree'
+Plug 'sheerun/vim-polyglot'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'dense-analysis/ale'
 
-" Essential Plugins
-Plug 'sheerun/vim-polyglot'     " Language support for C++
-Plug 'vim-airline/vim-airline'   " Status/tabline
-Plug 'scrooloose/nerdcommenter'  " Easy commenting
-Plug 'tpope/vim-surround'        " Surround text objects
-Plug 'tpope/vim-fugitive'        " Git integration
-Plug 'itchyny/lightline.vim'     " Statusline
+" Go development
+Plug 'fatih/vim-go'
+Plug 'posva/vim-vue'
 
-" Additional Plugins (Optional)
-Plug 'dense-analysis/ale'       " Linting and syntax checking
-Plug 'preservim/tagbar'        " Tagbar for code navigation
-Plug 'majutsushi/tagbar'       " Alternative tagbar
-Plug 'Yggdroot/indentLine'     " Indentation guides
-Plug 'vimwiki/vimwiki'         " Personal wiki"Plug 'tpope/vim-dispatch'      " Asynchronous build and test runner
-
-" End of plugins
 call plug#end()
 
-" Plugin configurations
+" Plugin-specific configurations
 
-" nerdtree
+" General configurations
+syntax enable
+set number
+set relativenumber
+set hidden
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set smarttab
+set mouse=a
+set termguicolors
+set background=dark
+colorscheme desert
 
-" vim-airline
+" NERDTree settings
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeMinimalUI = 1
+
+" Vim-airline settings
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '%d'
 
-" nerdcommenter
-map <C-_> <Plug>NERDCommenterToggle
-
-" vim-surround
-autocmd FileType c,cpp nmap <leader>s <Plug>Surround
-
-" vim-fugitive
-let g:fugitive_no_maps = 1
-
-" lightline.vim
-let g:lightline = {
-  \ 'colorscheme': 'powerline',
-  \ }
-
-" Additional configurations (Optional)
-
-" ale (linting and syntax checking)
+" Ale settings
 let g:ale_linters = {
-\ 'cpp': ['clang'],
-\ }
-let g:ale_fix_on_save = 1
+  \ 'c': ['clang'],
+  \ 'go': ['gopls'],
+  \}
+let g:ale_completion_enabled = 1
 
-" indentLine (indentation guides)
-let g:indentLine_color_term = 239
-let g:indentLine_char = '▏'
+" Vim-Go settings
+let g:go_fmt_command = "goimports"
+let g:go_list_type = "quickfix"
+let g:go_auto_sameids = 1
+let g:go_auto_type_info = 1
+let g:go_auto_type_info_max_height = 80
 
-" vimwiki (personal wiki)
-let g:vimwiki_list = [
-\ {'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}
-\ ]
+" Additional key mappings
+map <C-l> :ALENext<CR>
+map <C-h> :ALEPrevious<CR>
 
-" vim-dispatch (asynchronous build and test runner)
-let g:dispatch_compilers = {
-\ 'cpp': 'make'
-\ }
-let g:dispatch_makeprg = 'make -j4'
+" Set color scheme
+colorscheme desert
 
-" End of config
+" Use the same colors as Alacritty background and foreground
+hi Normal guibg=#1E2127 guifg=#A9B1D6
+
+" Define colors for syntax highlighting
+hi Comment guifg=#ABB2BF
+hi Constant guifg=#D19A66
+hi Identifier guifg=#98C379
+hi Statement guifg=#E06C75
+hi PreProc guifg=#56B6C2
+hi Type guifg=#C678DD
+hi Special guifg=#56B6C2
+hi Error guifg=#E06C75 guibg=#1E2127
+hi Visual guibg=#434758
 
